@@ -11,4 +11,9 @@ we would get,
 It is used to optimize links across devices, tracking individual links and, hiding affiliated original URLs.
 
 ## System Design
-<updated soon..>
+updated soon..
+<br/>
+<br/>
+
+## System Configuration
+updated soon..
