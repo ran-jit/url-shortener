@@ -7,6 +7,7 @@ import url.shortener.cache.URLShorteningCache;
 import url.shortener.data.Config.RedisConfig;
 import url.shortener.data.URLInfo;
 
+/** author: Ranjith Manickam @ 25 May' 2019 */
 public class RedisCache implements URLShorteningCache {
 
     private URLShorteningCache cache;
@@ -15,33 +16,24 @@ public class RedisCache implements URLShorteningCache {
         initialize(config);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void create(URLInfo urlInfo) {
-        this.cache.create(urlInfo);
+    public void set(URLInfo urlInfo) {
+        this.cache.set(urlInfo);
     }
 
+    /** {@inheritDoc} */
     @Override
     public URLInfo get(String id) {
         return this.cache.get(id);
     }
 
+    /**
+     * To initialize redis data cache.
+     *
+     * @param config - Redis configuration.
+     */
     private void initialize(RedisConfig config) {
-        init(config);
-
-        switch (config.getConfigType()) {
-            case CLUSTER:
-                this.cache = new RedisCluterManager(config);
-                break;
-            case SENTINEL:
-                this.cache = new RedisSentinelManager(config);
-                break;
-            default:
-                this.cache = new RedisManager(config);
-                break;
-        }
-    }
-
-    private void init(RedisConfig config) {
         String hosts = config.getHosts().replaceAll("\\s", "");
         String[] hostPorts = hosts.split(",");
 
@@ -74,5 +66,17 @@ public class RedisCache implements URLShorteningCache {
         poolConfig.setTimeBetweenEvictionRunsMillis(config.getTimeBetweenEviction());
         config.setJedisPoolConfig(poolConfig);
         config.setTimeout((config.getTimeout() < Protocol.DEFAULT_TIMEOUT) ? Protocol.DEFAULT_TIMEOUT : config.getTimeout());
+
+        switch (config.getConfigType()) {
+            case CLUSTER:
+                this.cache = new RedisCluterManager(config);
+                break;
+            case SENTINEL:
+                this.cache = new RedisSentinelManager(config);
+                break;
+            default:
+                this.cache = new RedisManager(config);
+                break;
+        }
     }
 }

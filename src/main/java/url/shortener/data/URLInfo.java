@@ -11,6 +11,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.Date;
 
+/** author: Ranjith Manickam @ 25 May' 2019 */
 @Getter
 @Setter
 @Builder

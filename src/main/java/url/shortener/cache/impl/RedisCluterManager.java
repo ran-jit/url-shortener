@@ -7,6 +7,7 @@ import redis.clients.jedis.exceptions.JedisRedirectionException;
 import url.shortener.data.Config.RedisConfig;
 import url.shortener.data.URLInfo;
 
+/** author: Ranjith Manickam @ 25 May' 2019 */
 final class RedisCluterManager extends RedisManager {
 
     private final JedisCluster cluster;
@@ -20,8 +21,9 @@ final class RedisCluterManager extends RedisManager {
         this.cluster = new JedisCluster(config.getClusterNodes(), config.getTimeout(), Protocol.DEFAULT_TIMEOUT, DEFAULT_MAX_REDIRECTIONS, config.getPassword(), config.getJedisPoolConfig());
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void create(URLInfo urlInfo) {
+    public void set(URLInfo urlInfo) {
         int tries = 0;
         boolean retry = true;
         do {
@@ -35,6 +37,7 @@ final class RedisCluterManager extends RedisManager {
         } while (retry && tries <= NUM_RETRIES);
     }
 
+    /** {@inheritDoc} */
     @Override
     public URLInfo get(String id) {
         int tries = 0;

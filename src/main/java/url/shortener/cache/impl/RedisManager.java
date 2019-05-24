@@ -10,6 +10,7 @@ import url.shortener.cache.URLShorteningCache;
 import url.shortener.data.Config.RedisConfig;
 import url.shortener.data.URLInfo;
 
+/** author: Ranjith Manickam @ 25 May' 2019 */
 class RedisManager implements URLShorteningCache {
 
     private static final int NUM_RETRIES = 3;
@@ -28,8 +29,9 @@ class RedisManager implements URLShorteningCache {
         this.failureWaitTime = failiureWaitTime;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void create(URLInfo urlInfo) {
+    public void set(URLInfo urlInfo) {
         int tries = 0;
         boolean retry = true;
         do {
@@ -43,6 +45,7 @@ class RedisManager implements URLShorteningCache {
         } while (retry && tries <= NUM_RETRIES);
     }
 
+    /** {@inheritDoc} */
     @Override
     public URLInfo get(String id) {
         int tries = 0;
@@ -60,6 +63,12 @@ class RedisManager implements URLShorteningCache {
         return url == null ? null : URLInfo.builder().url(new String(url)).id(id).build();
     }
 
+    /**
+     * To handle redis runtime exception
+     *
+     * @param tries - retry count
+     * @param ex    - exception
+     */
     void handleException(int tries, RuntimeException ex) {
         LOGGER.error(RedisConstants.REDIS_CONN_FAILED_RETRY_MSG + tries);
         if (tries == NUM_RETRIES) {

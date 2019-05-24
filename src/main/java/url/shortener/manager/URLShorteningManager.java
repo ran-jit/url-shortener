@@ -11,6 +11,7 @@ import url.shortener.data.URLInfo;
 import java.net.URL;
 import java.util.stream.IntStream;
 
+/** author: Ranjith Manickam @ 25 May' 2019 */
 public class URLShorteningManager {
 
     private final Config config;
@@ -27,7 +28,13 @@ public class URLShorteningManager {
         this.cache = cache;
     }
 
-    public void shorten(URL url) {
+    /**
+     * To shorten the actual URL.
+     *
+     * @param url - URL to be shortened.
+     * @return - returns shortened URL.
+     */
+    public String shorten(URL url) {
         URLInfo urlInfo = URLInfo.builder().url(url.toString()).build();
 
         IDGenerator.generateHashCode(urlInfo);
@@ -38,10 +45,17 @@ public class URLShorteningManager {
         }
 
         urlInfo.setId(id);
-        this.dao.create(urlInfo);
-        this.cache.create(urlInfo);
+        this.dao.save(urlInfo);
+        this.cache.set(urlInfo);
+        return id;
     }
 
+    /**
+     * To resolve the actual URL from shortened URL.
+     *
+     * @param url - shortened URL.
+     * @return - returns actual URL.
+     */
     public String resolve(URL url) {
         String id = url.toString().replace(this.config.getBaseUrl(), "");
         URLInfo urlInfo = this.cache.get(id);
@@ -50,13 +64,19 @@ public class URLShorteningManager {
             urlInfo = this.dao.get(id);
 
             if (urlInfo != null) {
-                this.cache.create(urlInfo);
+                this.cache.set(urlInfo);
                 return urlInfo.getUrl();
             }
         }
         return null;
     }
 
+    /**
+     * To generate unique id from the hashcode.
+     *
+     * @param hashCode - base62 encoded value.
+     * @return - returns the unique id.
+     */
     private String generateId(String hashCode) {
         if (StringUtils.isEmpty(hashCode)) {
             return null;
