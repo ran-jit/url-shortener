@@ -2,14 +2,10 @@ package url.shortener.cache;
 
 import url.shortener.data.URLInfo;
 
-public class URLShorteningCache {
+public interface URLShorteningCache {
 
-    public void create(URLInfo info) {
+    void create(URLInfo urlInfo);
 
-    }
-
-    public URLInfo get(String id) {
-        return null;
-    }
+    URLInfo get(String id);
 
 }

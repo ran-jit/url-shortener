@@ -4,33 +4,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.util.Pool;
 import url.shortener.cache.URLShorteningCache;
+import url.shortener.data.Config.RedisConfig;
 import url.shortener.data.URLInfo;
 
-public class RedisManager extends URLShorteningCache {
+class RedisManager implements URLShorteningCache {
 
     private static final int NUM_RETRIES = 3;
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisManager.class);
 
     private final Pool<Jedis> pool;
-    private final long failiureWaitTime;
+    private final long failureWaitTime;
 
-    public RedisManager(String host,
-                        int port,
-                        String password,
-                        int database,
-                        int timeout,
-                        JedisPoolConfig poolConfig) {
-        this.pool = new JedisPool(poolConfig, host, port, timeout, password, database);
-        this.failiureWaitTime = 2000L;
+    RedisManager(RedisConfig config) {
+        this.pool = new JedisPool(config.getJedisPoolConfig(), config.getHost(), config.getPort(), config.getTimeout(), config.getPassword(), config.getDatabase());
+        this.failureWaitTime = 2000L;
     }
 
     RedisManager(Pool<Jedis> pool, long failiureWaitTime) {
         this.pool = pool;
-        this.failiureWaitTime = failiureWaitTime;
+        this.failureWaitTime = failiureWaitTime;
     }
 
     @Override
@@ -71,7 +66,7 @@ public class RedisManager extends URLShorteningCache {
             throw ex;
         }
         try {
-            Thread.sleep(this.failiureWaitTime);
+            Thread.sleep(this.failureWaitTime);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
