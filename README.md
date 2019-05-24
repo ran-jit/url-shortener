@@ -11,7 +11,7 @@ we would get,
 It is used to optimize links across devices, tracking individual links and, hiding affiliated original URLs.
 
 ## System Design
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ran-jit/url-shortener/blob/master/system-design.png" alt="URL Shortener" width="65%">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ran-jit/url-shortener/blob/master/src/main/resources/system-design.png" alt="URL Shortener" width="65%">
 
 ## System Configuration
 updated soon..
