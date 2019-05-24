@@ -53,4 +53,25 @@ public class Config {
         private Set<HostAndPort> clusterNodes = Sets.newHashSet();
         private JedisPoolConfig jedisPoolConfig;
     }
+
+    private enum DatabaseConfigType {
+        MYSQL,
+        POSTGRESQL,
+        CASSANDRA,
+        DYNAMODB,
+        BIGTABLE
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DatabaseConfig {
+        private DatabaseConfigType configType;
+        private String url;
+        private String username;
+        private String password;
+        private String driver;
+    }
 }
