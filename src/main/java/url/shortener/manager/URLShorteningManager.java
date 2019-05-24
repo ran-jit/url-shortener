@@ -1,5 +1,6 @@
 package url.shortener.manager;
 
+import com.google.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import url.shortener.cache.URLShorteningCache;
 import url.shortener.commons.IDGenerator;
@@ -17,6 +18,7 @@ public class URLShorteningManager {
     private final URLShorteningDAO dao;
     private final URLShorteningCache cache;
 
+    @Inject
     public URLShorteningManager(Config config,
                                 URLShorteningDAO dao,
                                 URLShorteningCache cache) {
@@ -25,7 +27,9 @@ public class URLShorteningManager {
         this.cache = cache;
     }
 
-    public void shorten(URLInfo urlInfo) {
+    public void shorten(URL url) {
+        URLInfo urlInfo = URLInfo.builder().url(url.toString()).build();
+
         IDGenerator.generateHashCode(urlInfo);
         String id = generateId(urlInfo.getHashCode());
 
@@ -39,11 +43,6 @@ public class URLShorteningManager {
     }
 
     public String resolve(URL url) {
-        if (StringUtils.isEmpty(url.toString())) {
-            // TODO: throw exception
-            return null;
-        }
-
         String id = url.toString().replace(this.config.getBaseUrl(), "");
         URLInfo urlInfo = this.cache.get(id);
 
@@ -76,5 +75,4 @@ public class URLShorteningManager {
         }
         return builder.toString();
     }
-
 }
