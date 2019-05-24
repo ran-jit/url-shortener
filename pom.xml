@@ -8,6 +8,17 @@
     <artifactId>url-shortener</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>url-shortener</name>
+    <url>https://ranmanic.in</url>
+
+    <developers>
+        <developer>
+            <id>ranmanic</id>
+            <name>Ranjith Manickam</name>
+            <email>ranjith@ranmanic.in</email>
+        </developer>
+    </developers>
+
     <properties>
         <lombok.version>1.18.8</lombok.version>
         <guava.version>27.1-jre</guava.version>
