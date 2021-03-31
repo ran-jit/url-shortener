@@ -21,7 +21,7 @@
 
     <properties>
         <lombok.version>1.18.8</lombok.version>
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <guice.version>4.2.2</guice.version>
         <jedis.version>3.0.1</jedis.version>
