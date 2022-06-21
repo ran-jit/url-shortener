@@ -28,7 +28,7 @@
         <jackson-dataformat-yaml.version>2.9.9</jackson-dataformat-yaml.version>
         <slf4j-api.version>1.7.26</slf4j-api.version>
 
-        <mysql-driver.version>8.0.16</mysql-driver.version>
+        <mysql-driver.version>8.0.28</mysql-driver.version>
         <postgresql-driver.version>9.1-901-1.jdbc4</postgresql-driver.version>
 
         <maven-compiler-source.version>1.8</maven-compiler-source.version>
